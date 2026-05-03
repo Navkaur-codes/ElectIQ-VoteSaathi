@@ -1,6 +1,10 @@
 # 🗳️ ElectIQ: VoteSaathi
 ### *Empowering every citizen to vote with confidence.*
 
+**🚀 Live Demo:** [electiq-votesaathi.onrender.com](https://electiq-votesaathi.onrender.com)
+
+---
+
 ElectIQ: VoteSaathi is an engineering-grade, modular AI learning platform designed to bridge the civic knowledge gap in India. It provides a personalized, interactive experience to help citizens—especially first-time voters, students, and rural residents—understand the election process with clarity and confidence.
 
 ---
