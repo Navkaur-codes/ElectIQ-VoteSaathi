@@ -19,8 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static files from the root directory
-app.use(express.static(path.join(__dirname, '.')));
-
+app.use(express.static(path.join(__dirname)));
 /**
  * GET /api/news
  * Proxy endpoint for GNews API to resolve CORS issues
@@ -37,7 +36,7 @@ app.get('/api/news', async (req, res) => {
 
         console.log("Proxying request to GNews API...");
         const response = await fetch(gnewsUrl);
-        
+
         if (!response.ok) {
             const errorText = await response.text();
             console.error("GNews API Error:", errorText);
