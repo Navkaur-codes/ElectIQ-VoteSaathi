@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectIQ: VoteSaathi - QA Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { padding: 2rem; background: var(--bg-color); color: var(--text-main); font-family: var(--font-main); }
+        .test-card { margin-bottom: 1rem; border-left: 5px solid #ccc; background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .test-card.pass { border-left-color: var(--success-color); }
+        .test-card.fail { border-left-color: var(--danger-color); }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .badge-pass { background: #dcfce7; color: #166534; }
+        .badge-fail { background: #fee2e2; color: #991b1b; }
+        .summary { display: flex; gap: 2rem; margin-bottom: 2rem; }
+        .summary-box { flex: 1; text-align: center; padding: 1.5rem; background: white; border-radius: 12px; }
+        .summary-num { font-size: 2.5rem; font-weight: 800; display: block; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="header-actions">
+        <h1>🛠️ QA & Security Dashboard</h1>
+        <button id="run-tests-btn" class="btn btn-primary">Run Suite</button>
+    </div>
+
+    <div class="summary">
+        <div class="summary-box">
+            <span class="summary-num" id="total-tests">0</span>
+            Total Tests
+        </div>
+        <div class="summary-box" style="color: var(--success-color)">
+            <span class="summary-num" id="pass-count">0</span>
+            Passed
+        </div>
+        <div class="summary-box" style="color: var(--danger-color)">
+            <span class="summary-num" id="fail-count">0</span>
+            Failed
+        </div>
+    </div>
+
+    <div id="test-results">
+        <p>Click "Run Suite" to start the automated tests.</p>
+    </div>
+
+    <!-- Mocks & Data -->
+    <script>
+        window.CONFIG = { USE_MOCK_AI: true, GEMINI_API_KEY: 'test' };
+        window.FALLBACK_QA = { general: [{ q: 'test', a: 'Test Answer' }] };
+    </script>
+    
+    <script src="js/utils.js"></script>
+    <script src="js/tests.js"></script>
+</body>
+</html>

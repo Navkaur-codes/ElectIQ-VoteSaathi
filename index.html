@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectIQ: VoteSaathi - Empowering every citizen to vote with confidence</title>
+    <meta name="description" content="An AI-powered assistant that helps users understand the election process in a simple, interactive, and personalized way.">
+    <!-- Security Hardening: Content Security Policy -->
+    <!-- Security Hardening: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://apis.google.com https://unpkg.com https://*.firebaseio.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.openstreetmap.org https://unpkg.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://nominatim.openstreetmap.org https://generativelanguage.googleapis.com https://gnews.io https://api.allorigins.win https://*.gstatic.com https://unpkg.com; frame-src https://*.firebaseapp.com https://*.firebaseio.com;">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Indian Tricolor Premium Background Decorators -->
+    <div class="bg-shape bg-shape-saffron"></div>
+    <div class="bg-shape bg-shape-navy"></div>
+    <div class="bg-shape bg-shape-green"></div>
+    
+    <!-- Ashok Chakra Watermark -->
+    <svg class="ashok-chakra-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="50" cy="50" r="3" fill="currentColor"/>
+        <!-- 24 Spokes -->
+        <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
+            <line x1="50" y1="50" x2="50" y2="5" />
+            <line x1="50" y1="50" x2="61.6" y2="6.5" />
+            <line x1="50" y1="50" x2="72.5" y2="11.1" />
+            <line x1="50" y1="50" x2="81.8" y2="18.2" />
+            <line x1="50" y1="50" x2="88.9" y2="27.5" />
+            <line x1="50" y1="50" x2="93.5" y2="38.4" />
+            <line x1="50" y1="50" x2="95" y2="50" />
+            <line x1="50" y1="50" x2="93.5" y2="61.6" />
+            <line x1="50" y1="50" x2="88.9" y2="72.5" />
+            <line x1="50" y1="50" x2="81.8" y2="81.8" />
+            <line x1="50" y1="50" x2="72.5" y2="88.9" />
+            <line x1="50" y1="50" x2="61.6" y2="93.5" />
+            <line x1="50" y1="50" x2="50" y2="95" />
+            <line x1="50" y1="50" x2="38.4" y2="93.5" />
+            <line x1="50" y1="50" x2="27.5" y2="88.9" />
+            <line x1="50" y1="50" x2="18.2" y2="81.8" />
+            <line x1="50" y1="50" x2="11.1" y2="72.5" />
+            <line x1="50" y1="50" x2="6.5" y2="61.6" />
+            <line x1="50" y1="50" x2="5" y2="50" />
+            <line x1="50" y1="50" x2="6.5" y2="38.4" />
+            <line x1="50" y1="50" x2="11.1" y2="27.5" />
+            <line x1="50" y1="50" x2="18.2" y2="18.2" />
+            <line x1="50" y1="50" x2="27.5" y2="11.1" />
+            <line x1="50" y1="50" x2="38.4" y2="6.5" />
+        </g>
+    </svg>
+
+    <div id="app" class="app-container">
+        <!-- Sidebar / Navigation -->
+        <nav class="sidebar glass-panel" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="url(#primary-gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <defs>
+                            <linearGradient id="primary-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="var(--primary-color)" />
+                                <stop offset="100%" stop-color="var(--accent-color)" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                    <h1>ElectIQ <span>VoteSaathi</span></h1>
+                </div>
+                <button id="mobile-menu-close" class="mobile-only btn-icon" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-item active" data-view="home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Dashboard</a></li>
+                <li><a href="#coach" class="nav-item" data-view="coach">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> AI Civic Coach</a></li>
+                <li><a href="#map" class="nav-item" data-view="map">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg> Polling Booth</a></li>
+                <li><a href="#simulation" class="nav-item" data-view="simulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg> Voting Sim</a></li>
+                <li><a href="#timeline" class="nav-item" data-view="timeline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Timeline</a></li>
+                <li><a href="#news" class="nav-item" data-view="news">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2z"></path><line x1="18" y1="14" x2="6" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line><line x1="6" y1="10" x2="6" y2="6"></line><line x1="10" y1="6" x2="18" y2="6"></line><line x1="10" y1="10" x2="18" y2="10"></line></svg> Live Updates</a></li>
+                <li><a href="#quiz" class="nav-item" data-view="quiz">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Smart Quiz</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="preferences">
+                    <div class="toggle-group">
+                        <label for="theme-toggle">Dark Mode</label>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header glass-panel">
+                <button id="mobile-menu-open" class="mobile-only btn-icon" aria-label="Open menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+                <div class="header-title">
+                    <h2 id="current-view-title" class="gradient-text" data-i18n="dashboardTitle">Dashboard</h2>
+                </div>
+                <div class="user-controls" style="display: flex; gap: 1rem; align-items: center;">
+                    <!-- Progress Bar (Journey System) -->
+                    <div class="journey-progress hidden mobile-only-hide" id="journey-progress" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600;">
+                        <span id="journey-text">0% Ready</span>
+                        <div style="width: 80px; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                            <div id="journey-bar" style="height: 100%; width: 0%; background: var(--success); transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    <div id="live-engagement-stats" class="badge badge-outline mobile-only-hide" style="font-size: 0.75rem; border-color: var(--saffron); color: var(--saffron); padding: 4px 10px;">
+                        <span id="active-users-count">...</span> citizens visited
+                    </div>
+                    <button id="tts-toggle" class="btn btn-outline btn-sm" title="Toggle Voice Narration">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px; vertical-align: middle;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg> <span class="mobile-only-hide">Read Aloud</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-wrapper" id="content-area">
+                <!-- Home / Dashboard View -->
+                <section id="view-home" class="view-section active">
+                    <div class="hero-section">
+                        <h1>Welcome to <span class="gradient-text highlight">VoteSaathi</span></h1>
+                        <p class="hero-subtitle">Empowering every citizen to vote with confidence.</p>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="card interactive-card glass-panel" style="grid-column: span 2; display: flex; justify-content: space-around; align-items: center; padding: 1.5rem;">
+                            <div class="metric-item" style="text-align: center;">
+                                <h4 id="total-quizzes-count" style="font-size: 1.5rem; color: var(--saffron);">0</h4>
+                                <p style="font-size: 0.8rem; margin: 0;">Quizzes Attempted</p>
+                            </div>
+                            <div class="metric-item" style="text-align: center; border-left: 1px solid var(--border-color); padding-left: 2rem;">
+                                <h4 id="total-sims-count" style="font-size: 1.5rem; color: var(--green);">0</h4>
+                                <p style="font-size: 0.8rem; margin: 0;">Simulations Done</p>
+                            </div>
+                            <div class="metric-item" style="text-align: center; border-left: 1px solid var(--border-color); padding-left: 2rem;">
+                                <h4 id="avg-engagement-stats" style="font-size: 1.5rem; color: var(--primary-color);">0%</h4>
+                                <p style="font-size: 0.8rem; margin: 0;">Engagement Rate</p>
+                            </div>
+                        </div>
+                        <div class="card interactive-card glass-panel" onclick="location.hash='#coach'">
+                            <div class="card-icon gradient-bg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                            </div>
+                            <h3>AI Civic Coach</h3>
+                            <p>Ask anything about voting, elections, and your rights in plain language.</p>
+                        </div>
+                        <div class="card interactive-card glass-panel" onclick="location.hash='#map'">
+                            <div class="card-icon gradient-bg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+                            </div>
+                            <h3>Find Your Booth</h3>
+                            <p>Locate the nearest polling station and get real-time directions.</p>
+                        </div>
+                        <div class="card interactive-card glass-panel" onclick="location.hash='#simulation'">
+                            <div class="card-icon gradient-bg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>
+                            </div>
+                            <h3>Voting Simulator</h3>
+                            <p>Experience the step-by-step process of casting a vote on an EVM.</p>
+                        </div>
+                        <div class="card interactive-card glass-panel" onclick="location.hash='#timeline'">
+                            <div class="card-icon gradient-bg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <h3>Election Timeline</h3>
+                            <p>Understand the phases from the official announcement to results.</p>
+                        </div>
+                        <div class="card interactive-card glass-panel" onclick="location.hash='#quiz'">
+                            <div class="card-icon gradient-bg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <h3>Smart Quiz</h3>
+                            <p>Test your knowledge, track progress, and earn civic badges.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI Coach View -->
+                <section id="view-coach" class="view-section hidden">
+                    <div class="chat-container glass-panel">
+                        <div class="chat-header">
+                            <h3 data-i18n="civicAssistant">Civic Assistant</h3>
+                            <select id="user-persona" class="select-input" style="max-width: 150px;">
+                                <option value="general">General Voter</option>
+                                <option value="first-time">First-Time Voter</option>
+                                <option value="student">Student</option>
+                                <option value="rural">Rural Voter</option>
+                            </select>
+                        </div>
+                        <div class="chat-messages" id="chat-messages" aria-live="polite">
+                            <!-- Adaptive Banner -->
+                            <div id="ai-suggestion-banner" class="hidden" style="background: var(--saffron-light); color: #c2410c; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; text-align: center; border: 1px solid var(--saffron);">
+                                💡 Suggested: <a href="#simulation" style="color: inherit; font-weight: bold;">Try the Voting Simulator</a> based on your quiz score.
+                            </div>
+                            <div class="message ai">
+                                <div class="avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                                </div>
+                                <div class="msg-bubble">Hello! I'm your AI Civic Coach. How can I help you understand the election process today?</div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <button id="voice-input-btn" class="btn-icon voice-btn" title="Ask by voice">🎤</button>
+                            <input type="text" id="chat-input" placeholder="Type your question here..." aria-label="Chat input" class="text-input">
+                            <button id="send-msg-btn" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Map View -->
+                <section id="view-map" class="view-section hidden">
+                    <div class="map-controls card glass-panel">
+                        <h3>Find Polling Booth</h3>
+                        <div class="input-group">
+                            <input type="text" id="pincode-input" placeholder="Enter PIN code (e.g. 110001)" class="text-input" maxlength="6">
+                            <p id="pin-error" class="error-text hidden" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem;"></p>
+                            <button id="search-booth-btn" class="btn btn-primary">Search</button>
+                            <button id="use-location-btn" class="btn btn-outline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Use My Location
+                            </button>
+                        </div>
+                    </div>
+                    <div class="map-container card glass-panel">
+                        <div id="map-element" class="google-map-placeholder">
+                            <div class="empty-state">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted); opacity: 0.5;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <p>Search or use location to view map.</p>
+                            </div>
+                        </div>
+                        <div id="booth-results" class="booth-results hidden">
+                            <h4>Nearby Booths</h4>
+                            <ul id="booth-list" class="result-list"></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Simulation View -->
+                <section id="view-simulation" class="view-section hidden">
+                    <div class="simulation-container">
+                        <div class="stepper">
+                            <div class="step active" data-step="1">1. ID Verification</div>
+                            <div class="step" data-step="2">2. EVM Selection</div>
+                            <div class="step" data-step="3">3. VVPAT Confirmation</div>
+                        </div>
+                        
+                        <div class="sim-content card glass-panel active" id="sim-step-1">
+                            <div class="sim-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>
+                            </div>
+                            <h3>Step 1: ID Verification</h3>
+                            <p>The polling officer will check your name on the electoral roll and verify your ID.</p>
+                            <div class="sim-action">
+                                <button id="sim-verify-btn" class="btn btn-primary btn-lg">Show Voter ID</button>
+                            </div>
+                            <div id="sim-feedback-1" class="sim-feedback hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> ID Verified! Proceed to the compartment.
+                            </div>
+                        </div>
+
+                        <div class="sim-content card glass-panel hidden" id="sim-step-2">
+                            <h3>Step 2: Cast Your Vote</h3>
+                            <p>Press the blue button next to your chosen candidate on the EVM.</p>
+                            <div class="evm-machine">
+                                <div class="candidate-row">
+                                    <span class="cand-name">Candidate A <small class="party">Party X</small></span>
+                                    <button class="evm-btn" data-candidate="A"></button>
+                                </div>
+                                <div class="candidate-row">
+                                    <span class="cand-name">Candidate B <small class="party">Party Y</small></span>
+                                    <button class="evm-btn" data-candidate="B"></button>
+                                </div>
+                                <div class="candidate-row">
+                                    <span class="cand-name">NOTA <small class="party">None of the Above</small></span>
+                                    <button class="evm-btn nota-btn" data-candidate="NOTA"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sim-content card glass-panel hidden" id="sim-step-3">
+                            <h3>Step 3: VVPAT Confirmation</h3>
+                            <p>Verify your vote on the printed slip through the glass window.</p>
+                            <div class="vvpat-machine">
+                                <div class="vvpat-window">
+                                    <div id="vvpat-slip" class="slip hidden">
+                                        <div class="slip-header">ECI</div>
+                                        <p class="slip-title">Voted For:</p>
+                                        <h4 id="voted-candidate">---</h4>
+                                        <p class="slip-serial">S.No: 1042</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sim-action mt-4">
+                                <button id="sim-restart-btn" class="btn btn-outline hidden">Restart Simulation</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Timeline View -->
+                <section id="view-timeline" class="view-section hidden">
+                    <div class="timeline-container card glass-panel">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker">1</div>
+                                <div class="timeline-content">
+                                    <h3>Announcement</h3>
+                                    <p>Election Commission announces the schedule and the Model Code of Conduct comes into effect immediately.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">2</div>
+                                <div class="timeline-content">
+                                    <h3>Nomination</h3>
+                                    <p>Candidates file their nomination papers and affidavits detailing their assets and background.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">3</div>
+                                <div class="timeline-content">
+                                    <h3>Campaign</h3>
+                                    <p>Candidates campaign. It ends 48 hours before the polling day to ensure a silent period.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">4</div>
+                                <div class="timeline-content">
+                                    <h3>Voting Day</h3>
+                                    <p>Citizens cast their votes at designated polling booths using EVMs.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">5</div>
+                                <div class="timeline-content">
+                                    <h3>Counting & Results</h3>
+                                    <p>Votes are counted under strict security, and results are declared.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quiz View -->
+                <section id="view-quiz" class="view-section hidden">
+                    <div class="quiz-container card glass-panel" id="quiz-start-screen">
+                        <div class="quiz-hero-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <h3>Test Your Civic Knowledge</h3>
+                        <p>Take our adaptive quiz to see how much you know about your voting rights and process.</p>
+                        <button id="start-quiz-btn" class="btn btn-primary btn-lg mt-3">Start Quiz</button>
+                    </div>
+
+                    <div class="quiz-container card glass-panel hidden" id="quiz-question-screen">
+                        <div class="quiz-header">
+                            <span id="quiz-progress" class="badge">Question 1/5</span>
+                            <span id="quiz-score" class="badge badge-outline">Score: 0</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+                        <h3 id="quiz-question-text" class="quiz-question">Question goes here?</h3>
+                        <div class="quiz-options" id="quiz-options">
+                            <!-- Options injected by JS -->
+                        </div>
+                        <div id="quiz-explanation" class="quiz-explanation hidden"></div>
+                        <button id="next-question-btn" class="btn btn-primary hidden mt-4">Next Question</button>
+                    </div>
+
+                    <div class="quiz-container card glass-panel hidden" id="quiz-result-screen">
+                        <h3>Quiz Completed!</h3>
+                        <div class="final-score">
+                            <h2 id="final-score-text" class="gradient-text">0/5</h2>
+                            <p id="quiz-badge" class="quiz-badge">Badge: Novice Voter</p>
+                        </div>
+                        <button id="retry-quiz-btn" class="btn btn-outline mt-4">Retry Quiz</button>
+                    </div>
+                </section>
+
+                <!-- Live News View -->
+                <section id="view-news" class="view-section hidden">
+                    <div class="news-header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <p style="color: var(--text-muted); margin: 0;">Stay informed with the latest election-related updates from across India.</p>
+                        <button class="btn btn-outline btn-sm" onclick="fetchNews(true)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg> Refresh
+                        </button>
+                    </div>
+                    <div id="news-list" class="news-feed-grid">
+                    </div>
+                </section>
+
+                <!-- Feedback Section (Added to bottom of content area) -->
+                <div class="feedback-widget card glass-panel" style="margin-top: 3rem; padding: 1.5rem; text-align: center;">
+                    <h4>Was this helpful?</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Your feedback helps us improve civic education for everyone.</p>
+                    <div class="feedback-btns" style="display: flex; gap: 1rem; justify-content: center;">
+                        <button class="btn btn-outline btn-sm feedback-btn" data-helpful="true">👍 Yes, very helpful</button>
+                        <button class="btn btn-outline btn-sm feedback-btn" data-helpful="false">👎 Could be better</button>
+                    </div>
+                    <div id="feedback-success" class="hidden" style="color: var(--success); margin-top: 1rem; font-weight: 600;">
+                        Thank you for your feedback!
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Dev Metrics Panel (Hidden) -->
+    <div id="dev-metrics-panel" class="hidden" style="position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); color: lime; padding: 1rem; border-radius: 8px; z-index: 9999; font-family: monospace; font-size: 12px; pointer-events: none;">
+        <strong>⚡ Performance Metrics</strong><br>
+        API Calls: <span id="metric-api">0</span><br>
+        Cache Hits: <span id="metric-cache">0</span><br>
+        Avg AI Response: <span id="metric-latency">0</span>ms
+    </div>
+
+    <!-- Firebase SDK (Modular Realtime Database) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getDatabase, ref, set, get, update, push, onValue, child, increment } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+        
+        window.FIREBASE = { initializeApp, getDatabase, ref, set, get, update, push, onValue, child, increment };
+    </script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <!-- Standard Scripts (Order is important) -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/fallbackQA.js"></script>
+    <script src="js/aiCoach.js"></script>
+    <script src="js/maps.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/firebaseService.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
