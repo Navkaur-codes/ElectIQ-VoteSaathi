@@ -116,6 +116,8 @@ function updateJourneyProgress(currentView) {
 
 // Mobile Menu
 function setupMobileMenu() {
+    const overlay = document.getElementById('sidebar-overlay');
+
     if (mobileMenuOpenBtn) {
         mobileMenuOpenBtn.addEventListener('click', () => {
             sidebar.classList.add('open');
@@ -123,6 +125,11 @@ function setupMobileMenu() {
     }
     if (mobileMenuCloseBtn) {
         mobileMenuCloseBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+    }
+    if (overlay) {
+        overlay.addEventListener('click', () => {
             sidebar.classList.remove('open');
         });
     }
