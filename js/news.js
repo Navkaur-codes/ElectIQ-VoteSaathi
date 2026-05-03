@@ -53,17 +53,10 @@ async function fetchNews(forceRefresh = false) {
             await new Promise(resolve => setTimeout(resolve, 800)); // Simulate delay
             articles = mockNews;
         } else {
-            const apiKey = window.CONFIG.NEWS_API_KEY;
-            const query = encodeURIComponent("India elections");
-            let url = `https://gnews.io/api/v4/search?q=${query}&lang=en&country=in&max=10&token=${apiKey}`;
+            // Updated: Using local backend proxy to resolve CORS issues permanently
+            const url = '/api/news';
             
-            // CORS Fix: Use proxy if NOT running from a standard web server
-            if (window.location.protocol.indexOf('http') === -1) {
-                console.log("Local or non-http environment detected. Using CORS proxy...");
-                url = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-            }
-
-            console.log("Fetching news from:", url);
+            console.log("Fetching news from proxy:", url);
             const response = await fetch(url);
             if (!response.ok) {
                 const errorData = await response.json();
